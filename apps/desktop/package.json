@@ -1,0 +1,93 @@
+{
+  "name": "@agent/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AGENT Companion \u2014 desktop companion that surfaces agent presence and approvals",
+  "author": {
+    "name": "AGENT",
+    "email": "dev@agent.local"
+  },
+  "homepage": "https://example.invalid/agent",
+  "license": "UNLICENSED",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "vite --port 3002 --host",
+    "dev:app": "pnpm build:electron && AGENT_DEV_URL=http://localhost:3002 electron .",
+    "build": "vite build && pnpm build:electron",
+    "build:electron": "tsup electron/main.ts electron/preload.ts --format cjs --out-dir dist-electron --external electron --clean",
+    "start": "electron .",
+    "dist": "pnpm build && electron-builder",
+    "dist:dir": "pnpm build && electron-builder --dir",
+    "preview": "vite preview --port 3002 --host",
+    "typecheck": "tsc -p . && tsc -p tsconfig.electron.json",
+    "lint": "tsc -p . --noEmit && tsc -p tsconfig.electron.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "motion": "^12.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.4.0",
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0",
+    "vite": "^6.3.0",
+    "vitest": "^3.1.0"
+  },
+  "build": {
+    "appId": "com.agent.companion",
+    "productName": "AGENT Companion",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "build/tray.png",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "extendInfo": {
+        "LSUIElement": true
+      },
+      "executableName": "AGENT Companion"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "maintainer": "AGENT <dev@agent.local>",
+      "executableName": "agent-companion",
+      "syncDesktopName": true
+    },
+    "artifactName": "AGENT-Companion-${version}-${os}-${arch}.${ext}",
+    "deb": {
+      "packageName": "agent-companion"
+    }
+  },
+  "desktopName": "agent-companion.desktop"
+}
