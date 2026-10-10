@@ -1,0 +1,4 @@
+unit: desktop-ui
+commit: false
+candidate_splits:
+  - {id: apps/desktop/src/store.ts:36, drivers: [concern_split], rationale: "The reducer combines agent presence, approvals, story progression, activity logs, and UI mode derivation; these concerns may later separate.", source_slice: {file: apps/desktop/src/store.ts, lines: [36, 90]}}

@@ -1,0 +1,65 @@
+contracts:
+  - name: api-health
+    unit: api-health
+    type: rest
+    stability: must_preserve
+    source_loc: services/api/src/app.ts:33
+    contract:
+      method: GET
+      path: /health
+      request: "none"
+      response: "{status: ok, service: api}"
+      error: "Fastify default errors"
+      auth: "none"
+    target_contract:
+      method: "GET /health -> { status: 'ok', service: 'api' }"
+      notes: "Used by Compose healthcheck and API tests."
+    semantic_divergence: []
+  - name: provider-status
+    unit: api-provider-status
+    type: rest
+    stability: must_preserve
+    source_loc: services/api/src/app.ts:35
+    contract:
+      method: GET
+      path: /api/models/providers
+      request: "none"
+      response: "{providers: [{id, name, configured}]}"
+      error: "Fastify default errors"
+      auth: "none"
+    target_contract:
+      method: "GET /api/models/providers -> provider capability list without secrets"
+      notes: "Configured is derived from non-empty environment variables."
+    semantic_divergence: []
+  - name: policy-evaluation
+    unit: api-policy-evaluate
+    type: rest
+    stability: must_preserve
+    source_loc: services/api/src/app.ts:37
+    contract:
+      method: POST
+      path: /api/policy/evaluate
+      request: "tenantId, agentId, resource, level, optional externalDestination/dataSensitivity"
+      response: "{decision, risk, reason}"
+      error: "400 {error: invalid_request, issues}"
+      auth: "none in current implementation"
+    target_contract:
+      method: "POST /api/policy/evaluate -> PolicyResult"
+      notes: "Unknown resources and kill switches fail closed; critical risk cannot ALLOW."
+    semantic_divergence: []
+  - name: desktop-local-bridge
+    unit: desktop-bridge-approval
+    type: rest
+    stability: must_preserve
+    source_loc: apps/desktop/electron/bridge.ts:50
+    contract:
+      method: "GET/POST"
+      path: "/v1/health, /v1/agents, /v1/approvals"
+      request: "Bearer token; bounded JSON payloads"
+      response: "health, 204 presence, or approval decision"
+      error: "403 host/origin, 401 token, 400 validation, 429 pending limit"
+      auth: "loopback plus bearer token"
+    target_contract:
+      method: "Authenticated loopback bridge preserving endpoint paths and fail-closed approval decisions"
+      notes: "Browser-origin and foreign-host requests are rejected."
+    semantic_divergence: []

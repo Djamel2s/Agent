@@ -1,0 +1,4 @@
+unit: policy-engine
+bindings: []
+reason: "Pure TypeScript computation with no framework wiring."
+runtime_config: []

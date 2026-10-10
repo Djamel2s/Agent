@@ -1,0 +1,7 @@
+unit: policy-engine
+side_effects: []
+branches:
+  - {source_loc: packages/policies/src/index.ts:31, condition: "risk score threshold", behavior: "Maps score to LOW, MEDIUM, HIGH, or CRITICAL.", must_preserve: true}
+  - {source_loc: packages/policies/src/index.ts:40, condition: "platform, agent, or resource kill switch", behavior: "Returns DENY before resource policy lookup.", must_preserve: true}
+error_paths: []
+concurrency: {model: sync, tx_boundary: {source_loc: packages/policies/src/index.ts:37, scope: "Pure deterministic function.", isolation: "none", must_preserve: true}}

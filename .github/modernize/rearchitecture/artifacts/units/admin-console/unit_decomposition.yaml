@@ -1,0 +1,4 @@
+unit: admin-console
+commit: false
+candidate_splits:
+  - {id: apps/admin/app/page.tsx:25, drivers: [concern_split], rationale: "The single console contains users, policies, audit, usage, and kill-switch concerns that may later split into independently loaded views.", source_slice: {file: apps/admin/app/page.tsx, lines: [25, 75]}}

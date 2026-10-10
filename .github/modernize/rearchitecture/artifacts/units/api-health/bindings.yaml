@@ -1,0 +1,4 @@
+unit: api-health
+bindings:
+  - {type: route-declaration, name: "GET /health", source_loc: services/api/src/app.ts:33, target: "Fastify route", must_appear_in_target: true, notes: "Compose healthcheck target."}
+runtime_config: []

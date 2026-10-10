@@ -1,0 +1,7 @@
+unit: desktop-ui
+side_effects:
+  - {source_loc: apps/desktop/src/store.ts:66, effect: "Approval decisions update agent state and append an activity log.", must_preserve: true}
+branches:
+  - {source_loc: apps/desktop/src/store.ts:84, condition: "expanded, celebrate, approval, or agent activity state", behavior: "Derives the companion display mode.", must_preserve: true}
+error_paths: []
+concurrency: {model: event-loop, tx_boundary: {source_loc: apps/desktop/src/App.tsx:11, scope: "Reducer transitions are synchronous.", isolation: "none", must_preserve: true}}

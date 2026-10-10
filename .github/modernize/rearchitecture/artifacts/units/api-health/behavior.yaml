@@ -1,0 +1,5 @@
+unit: api-health
+side_effects: []
+branches: []
+error_paths: []
+concurrency: {model: async, tx_boundary: {source_loc: services/api/src/app.ts:33, scope: "No transaction.", isolation: "none", must_preserve: true}}

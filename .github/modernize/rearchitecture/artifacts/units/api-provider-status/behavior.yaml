@@ -1,0 +1,6 @@
+unit: api-provider-status
+side_effects: []
+branches:
+  - {source_loc: services/api/src/providers.ts:11, condition: "provider environment key is non-empty", behavior: "Reports configured true without returning the key.", must_preserve: true}
+error_paths: []
+concurrency: {model: async, tx_boundary: {source_loc: services/api/src/app.ts:35, scope: "Read-only environment inspection.", isolation: "none", must_preserve: true}}

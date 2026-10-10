@@ -1,0 +1,22 @@
+user_intent:
+  raw_request: "Understand and analyze the existing project and application."
+  inferred_acceptance:
+    - "accurate architecture and runtime-boundary inventory"
+    - "distinguish implemented behavior from demo-only UI"
+  cleanup_required: false
+strategy: minimal_runtime
+runtime_reachable:
+  - services/api/src/main.ts
+  - apps/web/app/layout.tsx
+  - apps/admin/app/page.tsx
+  - apps/desktop/electron/main.ts
+  - packages/policies/src/index.ts
+must_rewrite: []
+copy_as_is:
+  - "All maintained source is analysis input; no migration implementation was requested."
+legacy_allowed_to_remain:
+  - "Generated node_modules, dist, release, and .next output."
+defer_cleanup:
+  - "No cleanup action is implied by this analysis."
+full_rewrite_reason: null
+implementation_rule: "This is an analysis-only boundary; source anchors are evidence, not rewrite targets."

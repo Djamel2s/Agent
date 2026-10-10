@@ -1,0 +1,29 @@
+flows:
+  - name: web-provider-readiness
+    medium: http-header
+    key: "GET /api/models/providers"
+    writer:
+      unit: api-provider-status
+      source_loc: services/api/src/app.ts:35
+    reader:
+      unit: web-application
+      source_loc: apps/web/lib/api.ts:5
+    pairing: matched
+    must_preserve: true
+    must_confirm: null
+    verification_hint: "Load the web shell with and without provider environment keys."
+    notes: "The shell renders Checking API, API offline, or configured-provider status."
+  - name: desktop-bridge-token
+    medium: file
+    key: bridge.json.token
+    writer:
+      unit: desktop-bridge-approval
+      source_loc: apps/desktop/electron/main.ts:58
+    reader:
+      unit: desktop-bridge-approval
+      source_loc: apps/desktop/bin/agent-hook.mjs:1
+    pairing: matched
+    must_preserve: true
+    must_confirm: null
+    verification_hint: "Run the hook against the running companion and verify unauthorized requests fail."
+    notes: "The token is persisted in the Electron user-data directory and compared as a hash."

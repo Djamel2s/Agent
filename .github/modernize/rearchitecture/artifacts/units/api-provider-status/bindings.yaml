@@ -1,0 +1,5 @@
+unit: api-provider-status
+bindings:
+  - {type: route-declaration, name: "GET /api/models/providers", source_loc: services/api/src/app.ts:35, target: "Fastify route", must_appear_in_target: true, notes: "Consumed by web shell."}
+runtime_config:
+  - {key: "OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, MISTRAL_API_KEY", source_loc: services/api/src/providers.ts:4, source: env, default_value: "unset", must_appear_in_target: true, notes: "Presence-only capability detection."}

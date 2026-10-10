@@ -1,0 +1,6 @@
+unit: desktop-bridge-approval
+bindings:
+  - {type: route-declaration, name: "POST /v1/approvals", source_loc: apps/desktop/electron/bridge.ts:90, target: "loopback HTTP bridge", must_appear_in_target: true, notes: "Bearer token, loopback host, no Origin, body limit, and bounded pending requests."}
+  - {type: listener, name: "companion:decide", source_loc: apps/desktop/electron/main.ts:72, target: "bridge.decide", must_appear_in_target: true, notes: "IPC payload is type-checked before resolving approval."}
+runtime_config:
+  - {key: AGENT_DEV_URL, source_loc: apps/desktop/electron/main.ts:15, source: env, default_value: "unset", must_appear_in_target: true, notes: "Selects dev URL instead of packaged renderer."}

@@ -1,0 +1,78 @@
+units:
+  - name: web-application
+    trigger: page
+    trigger_detail: "Next App Router: /, /workspace, /agents, /tasks, /activity, /approvals, /memory, /knowledge, /integrations, /chat"
+    source_anchors:
+      - {path: apps/web/app/(app)/layout.tsx, line: 5}
+      - {path: apps/web/components/Shell.tsx, line: 13}
+      - {path: apps/web/lib/demo.ts, line: 7}
+    exported_signature: []
+    dynamic_entrypoints: [{target: "Next App Router pages", mechanism: convention, source_loc: apps/web/app/(app)/layout.tsx:5}]
+    depends_on: [{unit: api-provider-status, via: "GET /api/models/providers"}]
+    shared_refs: [{module: web-demo-data, used_fields: [AGENTS, TASKS, ACTIVITY, MEMORIES, INTEGRATIONS, APPROVALS, KNOWLEDGE, MODELS, CHATS]}]
+  - name: admin-console
+    trigger: page
+    trigger_detail: "GET / on port 3001; local tabs Overview, Users & roles, Policies, Audit, Usage & budgets, Kill switch"
+    source_anchors: [{path: apps/admin/app/page.tsx, line: 20}]
+    exported_signature: []
+    dynamic_entrypoints: [{target: "Next App Router admin page", mechanism: convention, source_loc: apps/admin/app/page.tsx:20}]
+    depends_on: []
+    shared_refs: []
+  - name: api-health
+    trigger: api
+    trigger_detail: "GET /health"
+    source_anchors: [{path: services/api/src/app.ts, line: 33}]
+    exported_signature: []
+    dynamic_entrypoints: []
+    depends_on: []
+    shared_refs: []
+  - name: api-provider-status
+    trigger: api
+    trigger_detail: "GET /api/models/providers"
+    source_anchors: [{path: services/api/src/app.ts, line: 35}, {path: services/api/src/providers.ts, line: 11}]
+    exported_signature: []
+    dynamic_entrypoints: []
+    depends_on: []
+    shared_refs: []
+  - name: api-policy-evaluate
+    trigger: api
+    trigger_detail: "POST /api/policy/evaluate"
+    source_anchors: [{path: services/api/src/app.ts, line: 37}]
+    exported_signature: []
+    dynamic_entrypoints: []
+    depends_on: [{unit: policy-engine, via: "evaluate(DEMO_POLICIES, parsed.data)"}]
+    shared_refs: [{module: policy-engine, used_fields: [evaluate, ActionRequest, PolicyResult]}]
+  - name: policy-engine
+    trigger: api
+    trigger_detail: "Public package functions computeRisk/evaluate"
+    source_anchors: [{path: packages/policies/src/index.ts, line: 1}]
+    exported_signature:
+      - {method: "Risk computeRisk(ActionRequest)", source_loc: packages/policies/src/index.ts:30, stability: frozen}
+      - {method: "PolicyResult evaluate(PolicySet, ActionRequest)", source_loc: packages/policies/src/index.ts:37, stability: frozen}
+    dynamic_entrypoints: []
+    depends_on: []
+    shared_refs: []
+  - name: desktop-ui
+    trigger: page
+    trigger_detail: "Electron renderer island/tray companion"
+    source_anchors: [{path: apps/desktop/src/App.tsx, line: 11}, {path: apps/desktop/src/store.ts, line: 36}]
+    exported_signature: []
+    dynamic_entrypoints: [{target: "Electron preload API", mechanism: convention, source_loc: apps/desktop/electron/preload.ts:6}]
+    depends_on: [{unit: desktop-bridge-approval, via: "agentNative.decide"}]
+    shared_refs: []
+  - name: desktop-bridge-agent
+    trigger: handler
+    trigger_detail: "POST /v1/agents on loopback bridge"
+    source_anchors: [{path: apps/desktop/electron/bridge.ts, line: 79}]
+    exported_signature: []
+    dynamic_entrypoints: []
+    depends_on: [{unit: desktop-ui, via: "bridge:agent event"}]
+    shared_refs: []
+  - name: desktop-bridge-approval
+    trigger: handler
+    trigger_detail: "POST /v1/approvals plus Electron IPC companion:decide"
+    source_anchors: [{path: apps/desktop/electron/bridge.ts, line: 90}, {path: apps/desktop/electron/main.ts, line: 72}]
+    exported_signature: []
+    dynamic_entrypoints: []
+    depends_on: [{unit: desktop-ui, via: "bridge:approval and bridge:cancel events"}]
+    shared_refs: []

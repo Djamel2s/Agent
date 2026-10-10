@@ -1,0 +1,7 @@
+unit: web-application
+side_effects:
+  - {source_loc: apps/web/app/(app)/workspace/page.tsx:18, effect: "Appends simulated live activity and advances the demo task timeline.", must_preserve: true}
+branches:
+  - {source_loc: apps/web/components/Shell.tsx:48, condition: "provider fetch state", behavior: "Shows checking, offline, or configured-provider status.", must_preserve: true}
+error_paths: []
+concurrency: {model: event-loop, tx_boundary: {source_loc: apps/web/app/(app)/workspace/page.tsx:18, scope: "Interval is cleaned up on unmount.", isolation: "none", must_preserve: true}}

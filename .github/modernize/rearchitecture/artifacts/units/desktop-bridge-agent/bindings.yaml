@@ -1,0 +1,4 @@
+unit: desktop-bridge-agent
+bindings:
+  - {type: route-declaration, name: "POST /v1/agents", source_loc: apps/desktop/electron/bridge.ts:79, target: "loopback HTTP bridge", must_appear_in_target: true, notes: "Bearer token and host/origin checks apply."}
+runtime_config: []

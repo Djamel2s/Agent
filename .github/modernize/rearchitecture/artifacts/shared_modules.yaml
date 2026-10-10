@@ -1,0 +1,19 @@
+modules:
+  - name: web-demo-data
+    kind: store
+    source_loc: apps/web/lib/demo.ts:1
+    used_by_units: [web-application]
+    fields: [AGENTS, TASKS, ACTIVITY, MEMORIES, INTEGRATIONS, APPROVALS, KNOWLEDGE, MODELS, CHATS]
+    god_class: false
+    split_candidate: false
+    migration_strategy: wrap
+    notes: "Single demo source is shared by the web pages; it is the clearest future replacement seam for real services."
+  - name: policy-engine
+    kind: utility
+    source_loc: packages/policies/src/index.ts:1
+    used_by_units: [api-policy-evaluate, policy-engine]
+    fields: [computeRisk, evaluate, ActionRequest, PolicySet, PolicyResult]
+    god_class: false
+    split_candidate: false
+    migration_strategy: copy
+    notes: "Pure deterministic policy logic with explicit public types."

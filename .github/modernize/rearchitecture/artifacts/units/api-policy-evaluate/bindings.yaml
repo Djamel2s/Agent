@@ -1,0 +1,4 @@
+unit: api-policy-evaluate
+bindings:
+  - {type: route-declaration, name: "POST /api/policy/evaluate", source_loc: services/api/src/app.ts:37, target: "Fastify route", must_appear_in_target: true, notes: "Zod validation precedes policy evaluation."}
+runtime_config: []

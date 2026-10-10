@@ -1,0 +1,4 @@
+unit: web-application
+commit: false
+candidate_splits:
+  - {id: apps/web/app/(app)/workspace/page.tsx:11, drivers: [concern_split], rationale: "Workspace combines presence, task timeline, live activity, graph, context, memory, and approval views; these concerns may later become independently testable surfaces.", source_slice: {file: apps/web/app/(app)/workspace/page.tsx, lines: [11, 100]}}

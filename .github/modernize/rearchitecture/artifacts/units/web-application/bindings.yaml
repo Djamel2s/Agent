@@ -1,0 +1,5 @@
+unit: web-application
+bindings:
+  - {type: convention, name: "Next App Router pages", source_loc: apps/web/app/(app)/layout.tsx:5, target: "AppLayout", must_appear_in_target: true, notes: "Route-group layout wraps product pages."}
+runtime_config:
+  - {key: NEXT_PUBLIC_API_URL, source_loc: apps/web/lib/api.ts:3, source: env, default_value: "http://localhost:4000", must_appear_in_target: true, notes: "API base URL for provider status."}

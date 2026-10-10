@@ -1,0 +1,4 @@
+unit: desktop-ui
+bindings:
+  - {type: di-registration, name: "contextBridge agentNative API", source_loc: apps/desktop/electron/preload.ts:6, target: "renderer window.agentNative", must_appear_in_target: true, notes: "Only whitelisted channels and actions are exposed."}
+runtime_config: []

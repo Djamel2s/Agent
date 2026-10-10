@@ -1,0 +1,7 @@
+unit: desktop-bridge-agent
+side_effects:
+  - {source_loc: apps/desktop/electron/bridge.ts:83, effect: "Publishes validated agent presence to the renderer callback.", must_preserve: true}
+branches:
+  - {source_loc: apps/desktop/electron/bridge.ts:79, condition: "agent payload invalid", behavior: "Returns HTTP 400 invalid_agent.", must_preserve: true}
+error_paths: []
+concurrency: {model: async, tx_boundary: {source_loc: apps/desktop/electron/bridge.ts:50, scope: "One request is parsed and dispatched asynchronously.", isolation: "none", must_preserve: true}}

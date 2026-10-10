@@ -1,0 +1,9 @@
+unit: desktop-bridge-approval
+side_effects:
+  - {source_loc: apps/desktop/electron/bridge.ts:105, effect: "Creates a pending approval and blocks until approve, reject, timeout, or client close.", must_preserve: true}
+  - {source_loc: apps/desktop/electron/bridge.ts:103, effect: "Notifies the renderer and brings the companion visible for an approval.", must_preserve: true}
+branches:
+  - {source_loc: apps/desktop/electron/bridge.ts:57, condition: "pending count reaches maxPending", behavior: "Returns HTTP 429.", must_preserve: true}
+  - {source_loc: apps/desktop/electron/bridge.ts:62, condition: "request closes while pending", behavior: "Finishes as timeout and emits cancellation.", must_preserve: true}
+error_paths: []
+concurrency: {model: async, tx_boundary: {source_loc: apps/desktop/electron/bridge.ts:105, scope: "Approval promise remains pending until a single terminal decision.", isolation: "none", must_preserve: true}}

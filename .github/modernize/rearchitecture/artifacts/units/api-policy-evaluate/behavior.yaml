@@ -1,0 +1,7 @@
+unit: api-policy-evaluate
+side_effects: []
+branches:
+  - {source_loc: services/api/src/app.ts:39, condition: "Zod body validation fails", behavior: "Returns HTTP 400 with invalid_request and issue details.", must_preserve: true}
+  - {source_loc: packages/policies/src/index.ts:40, condition: "critical risk would otherwise allow", behavior: "Escalates decision to APPROVAL.", must_preserve: true}
+error_paths: []
+concurrency: {model: async, tx_boundary: {source_loc: services/api/src/app.ts:37, scope: "Pure policy evaluation; no transaction.", isolation: "none", must_preserve: true}}

@@ -1,0 +1,4 @@
+unit: admin-console
+bindings:
+  - {type: convention, name: "Next App Router admin page", source_loc: apps/admin/app/page.tsx:20, target: "Admin", must_appear_in_target: true, notes: "Single page entrypoint."}
+runtime_config: []

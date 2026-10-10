@@ -1,0 +1,4 @@
+unit: desktop-bridge-approval
+commit: false
+candidate_splits:
+  - {id: apps/desktop/electron/bridge.ts:40-126, drivers: [protocol_split, lifecycle_split], rationale: "The bridge combines authentication and validation, agent events, approval lifecycle, timeout cancellation, and HTTP transport; these responsibilities may later separate.", source_slice: {file: apps/desktop/electron/bridge.ts, lines: [40, 126]}}

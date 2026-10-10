@@ -1,0 +1,7 @@
+unit: admin-console
+side_effects:
+  - {source_loc: apps/admin/app/page.tsx:20, effect: "Kill switch tab toggles local demo state only.", must_preserve: true}
+branches:
+  - {source_loc: apps/admin/app/page.tsx:25, condition: "selected tab", behavior: "Renders the corresponding demo governance view.", must_preserve: true}
+error_paths: []
+concurrency: {model: event-loop, tx_boundary: {source_loc: apps/admin/app/page.tsx:22, scope: "Local React state updates.", isolation: "none", must_preserve: true}}
